@@ -90,12 +90,6 @@ from rest_framework.views import APIView
 class PrayerTime(APIView):
     def get(self, request, latitude, longitude, *args, **kwargs):
         time_difference=(longitude-69.2401)*4
-        
-
-
-
-
-
 
 
 
