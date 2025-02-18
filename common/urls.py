@@ -5,10 +5,13 @@ from .views import (
     ramadan_time,
     region_detail,
     categories_list,
-    prayer_times_api,
+    prayer_times_api_by_region,
     category_detail,
     surah_list,
     surah_detail,
+# monthly_prayer_times_api,
+prayer_times_api_by_district,
+today_ramadan_times
 )
 
 urlpatterns = [
@@ -20,5 +23,8 @@ urlpatterns = [
     path('category_detail/<int:pk>/', category_detail, name='category_detail'),
     path('surah_list/', surah_list, name='surah_list'),
     path('surah_detail/<int:pk>', surah_detail, name='surah_detail'),
-    path('prayer_times_api/<int:region_id>', prayer_times_api, name='prayer_times_api')
+    path('prayer_times_api/<int:region_id>', prayer_times_api_by_region, name='prayer_times_api'),
+    # path('monthly_prayer_times_api', monthly_prayer_times_api, name='monthly_prayer_times_api'),
+    path('prayer_times_api_by_district/<int:district_id>/', prayer_times_api_by_district, name='prayer_times_api_by_district'),
+    path('today_ramadan_times/<int:district_id>/', today_ramadan_times, name='today_ramadan_times'),
 ]
