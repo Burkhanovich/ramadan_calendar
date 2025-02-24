@@ -40,14 +40,17 @@ def ramadan_time(request, d_id):
     time_difference = timedelta(minutes=obj.time_difference)
     data={
         'region':obj.region.name,
-        'district':obj.name
+        'district':obj.name,
+        'times':[],
     }
     if not default_times.exists():
         return Response({"error": "DefaultTime ma'lumotlari topilmadi!"}, status=status.HTTP_404_NOT_FOUND)
     for date_time in default_times:
-        saharlik=(datetime.combine(date_time.date, date_time.saharlik)+time_difference).time()
-        iftorlik=(datetime.combine(date_time.date, date_time.iftorlik)+time_difference).time()
-        data[f'{date_time.date}']={'saharlik':saharlik, 'iftorlik': iftorlik}
+        l={}
+        l['date_time']= date_time.date
+        l['saharlik']= (datetime.combine(date_time.date, date_time.saharlik) + time_difference).time()
+        l['iftorlik']= (datetime.combine(date_time.date, date_time.iftorlik) + time_difference).time()
+        data['times'].append(l)
     return Response(data, status=status.HTTP_200_OK)
 
 @api_view(['GET'], )
