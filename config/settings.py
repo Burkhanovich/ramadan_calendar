@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from django.conf.global_settings import STATIC_ROOT, MEDIA_URL, MEDIA_ROOT
 from tutorial.settings import BASE_DIR
