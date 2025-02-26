@@ -33,23 +33,30 @@ def district_list_view(request, pk):
     return Response(serializer.data)
 
 
+oylar = {
+    1: "yanvar", 2: "fevral", 3: "mart", 4: "aprel",
+    5: "may", 6: "iyun", 7: "iyul", 8: "avgust",
+    9: "sentyabr", 10: "oktyabr", 11: "noyabr", 12: "dekabr"
+}
+
 @api_view(['GET'])
 def ramadan_time(request, d_id):
     obj = get_object_or_404(DistrictTime, id=d_id)
     default_times = DefaultTime.objects.all()
     time_difference = timedelta(minutes=obj.time_difference)
-    data={
-        'region':obj.region.name,
-        'district':obj.name,
-        'times':[],
-    }
     if not default_times.exists():
         return Response({"error": "DefaultTime ma'lumotlari topilmadi!"}, status=status.HTTP_404_NOT_FOUND)
+    data = {
+        'region': obj.region.name,
+        'district': obj.name,
+        'times': [],
+    }
     for date_time in default_times:
         l={}
-        l['date_time']= date_time.date
-        l['saharlik']= (datetime.combine(date_time.date, date_time.saharlik) + time_difference).time()
-        l['iftorlik']= (datetime.combine(date_time.date, date_time.iftorlik) + time_difference).time()
+        l['date_time'] = f"{date_time.date.day}-{oylar[date_time.date.month]}"
+
+        l['saharlik'] = (datetime.combine(date_time.date, date_time.saharlik) + time_difference).strftime("%H:%M")
+        l['iftorlik'] = (datetime.combine(date_time.date, date_time.iftorlik) + time_difference).strftime("%H:%M")
         data['times'].append(l)
     return Response(data, status=status.HTTP_200_OK)
 
